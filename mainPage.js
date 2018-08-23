@@ -71,6 +71,12 @@ saveBtn.onclick = function() {
   });
 };
 
+$(document).on("click", ".time-link", function() {
+  parent.document.getElementsByClassName("video-stream")[0].currentTime = $(
+    this
+  ).attr("time");
+});
+
 function addNewTimelineAccrodion(info) {
   var accordianDiv = `
     <div class="card">
@@ -81,7 +87,7 @@ function addNewTimelineAccrodion(info) {
                 </button>
             </span>
             <div class="float-right p-2">
-                <a href="{time_url}" target="_parent">{time}</a>
+            <button class="time-link" time="{playback_time}">{time}<span>
             </div>
         </div>
 
@@ -97,10 +103,7 @@ function addNewTimelineAccrodion(info) {
 
   accordianDiv = accordianDiv.replace("video_id", info.id);
   accordianDiv = accordianDiv.replace("{title}", info.title);
-  accordianDiv = accordianDiv.replace(
-    "{time_url}",
-    "https://youtu.be/" + info.id + "?t=" + parseInt(info.playbackTime)
-  );
+  accordianDiv = accordianDiv.replace("{playback_time}", info.playbackTime);
   accordianDiv = accordianDiv.replace(
     "{time}",
     formatSeconds(info.playbackTime)
