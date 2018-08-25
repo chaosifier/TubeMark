@@ -65,16 +65,24 @@ saveBtn.onclick = function() {
     addNewTimelineAccrodion({
       id: videoInfo.id,
       playbackTime: videoInfo.playbackTime,
-      title: document.getElementById("videoTitle").value,
+      title: document.getElementById("inputTitle").value,
       description: document.getElementById("textAreaNote").value
     });
   });
 };
 
 $(document).on("click", ".time-link", function() {
-  parent.document.getElementsByClassName("video-stream")[0].currentTime = $(
-    this
-  ).attr("time");
+  parent.window.postMessage(
+    {
+      type: "SKIP_TO_TIME",
+      time: $(this).attr("time")
+    },
+    "*"
+  );
+
+  // parent.document.getElementsByClassName("video-stream")[0].currentTime = $(
+  //   this
+  // ).attr("time");
 });
 
 function addNewTimelineAccrodion(info) {
