@@ -93,7 +93,6 @@ $(document).on("click", ".delete-tubemark", function() {
     keyValue[videoInfo.id] = storedCurrentVideoInfo;
     chrome.storage.sync.set(keyValue, function() {
       $("#" + timeIdValue + "_accrod").remove();
-      alert("Item deleted");
     });
   }
 });
@@ -101,9 +100,9 @@ $(document).on("click", ".delete-tubemark", function() {
 function addNewTimelineAccrodion(info) {
   var accordianDiv = `
     <div class="card" id="tm_{video_id}_accrod">
-        <div class="card-header p-0" id="tm_{video_id}_heading">
+        <div class="card-header p-0" id="tm_{video_id}_heading" data-toggle="collapse" data-target="#tm_{video_id}_accor" aria-expanded="true" aria-controls="tm_{video_id}_accor">
             <span class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tm_{video_id}_accor" aria-expanded="true" aria-controls="tm_{video_id}_accor">
+                <button class="btn btn-link" type="button">
                     {title}
                 </button>
             </span>
