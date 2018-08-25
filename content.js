@@ -81,15 +81,13 @@ window.addEventListener(
         videoInfo.title = event.data.args.title;
         videoInfo.playbackTime = event.data.args.playbackTime;
 
-        console.log("received args from main page", JSON.stringify(videoInfo));
-
         document
           .getElementById("theIframe")
           .contentWindow.postMessage(videoInfo, "*");
       } else if (event.data.type == "SKIP_TO_TIME") {
-        console.log("skipping to time", event.data.time);
         document.getElementsByClassName("video-stream")[0].currentTime =
           event.data.time;
+        document.getElementsByClassName("video-stream")[0].play();
       }
     }
   },

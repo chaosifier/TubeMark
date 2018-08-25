@@ -47,13 +47,13 @@ saveBtn.onclick = function() {
     video_ids.push(videoInfo.id);
     var keyValue = {};
     keyValue["video_ids"] = video_ids;
-    chrome.storage.sync.set(keyValue, function() {
-      console.log("New video_Id saved to video_id array.");
-    });
+    chrome.storage.sync.set(keyValue, function() {});
   }
 
   // treat playbackTime as the primary key
+  var newTubemarkId = guid();
   storedCurrentVideoInfo.tubeMarks.push({
+    id: newTubemarkId,
     playbackTime: videoInfo.playbackTime,
     title: document.getElementById("inputTitle").value,
     description: document.getElementById("textAreaNote").value
@@ -61,9 +61,8 @@ saveBtn.onclick = function() {
   var keyValue = {};
   keyValue[videoInfo.id] = storedCurrentVideoInfo;
   chrome.storage.sync.set(keyValue, function() {
-    console.log("saved value", JSON.stringify(keyValue));
     addNewTimelineAccrodion({
-      id: videoInfo.id,
+      id: newTubemarkId,
       playbackTime: videoInfo.playbackTime,
       title: document.getElementById("inputTitle").value,
       description: document.getElementById("textAreaNote").value
@@ -79,37 +78,50 @@ $(document).on("click", ".time-link", function() {
     },
     "*"
   );
+});
 
-  // parent.document.getElementsByClassName("video-stream")[0].currentTime = $(
-  //   this
-  // ).attr("time");
+$(document).on("click", ".delete-tubemark", function() {
+  var timeIdValue = $(this).attr("tm-id");
+  var tmId = timeIdValue.replace("tm_", "");
+  var indexOfItemToDelete = storedCurrentVideoInfo.tubeMarks.indexOf(
+    storedCurrentVideoInfo.tubeMarks.filter(tm => tm.id == tmId)[0]
+  );
+  if (indexOfItemToDelete != -1) {
+    storedCurrentVideoInfo.tubeMarks.splice(indexOfItemToDelete, 1);
+
+    var keyValue = {};
+    keyValue[videoInfo.id] = storedCurrentVideoInfo;
+    chrome.storage.sync.set(keyValue, function() {
+      $("#" + timeIdValue + "_accrod").remove();
+      alert("Item deleted");
+    });
+  }
 });
 
 function addNewTimelineAccrodion(info) {
   var accordianDiv = `
-    <div class="card">
-        <div class="card-header p-0" id="video_id_heading">
+    <div class="card" id="tm_{video_id}_accrod">
+        <div class="card-header p-0" id="tm_{video_id}_heading">
             <span class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#video_id_accor" aria-expanded="true" aria-controls="video_id_1_accor">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#tm_{video_id}_accor" aria-expanded="true" aria-controls="tm_{video_id}_accor">
                     {title}
                 </button>
             </span>
             <div class="float-right p-2">
-            <button class="time-link" time="{playback_time}">{time}<span>
+            <button class="time-link" time="{playback_time}">{time}</button>
             </div>
         </div>
 
-        <div id="video_id_accor" class="collapse" aria-labelledby="video_id_heading" data-parent="#timeLineAccordion">
+        <div id="tm_{video_id}_accor" class="collapse" aria-labelledby="tm_{video_id}_heading" data-parent="#timeLineAccordion">
             <div class="card-body">
                 {description}
             </div>
-            <button class="btn-info float-right btn-md m-1" id="btnEdit">Edit</button>
-            <button class="btn-danger float-right btn-md m-1" id="btnDelete">Delete</button>
+            <button class="delete-tubemark btn-danger float-right btn-md m-1" tm-id="tm_{video_id}">Delete</button>
         </div>
     </div>
     `;
-
-  accordianDiv = accordianDiv.replace("video_id", info.id);
+  // treating time as id
+  accordianDiv = accordianDiv.replace(new RegExp("{video_id}", "g"), info.id);
   accordianDiv = accordianDiv.replace("{title}", info.title);
   accordianDiv = accordianDiv.replace("{playback_time}", info.playbackTime);
   accordianDiv = accordianDiv.replace(
@@ -127,7 +139,6 @@ function mapStoredVideoInfoToView(storedCurrentVideoInfo) {
     storedCurrentVideoInfo.title;
   for (var i = 0; i < storedCurrentVideoInfo.tubeMarks.length; i++) {
     var curTM = storedCurrentVideoInfo.tubeMarks[i];
-    curTM.id = storedCurrentVideoInfo.id;
     addNewTimelineAccrodion(curTM);
   }
 }
@@ -141,4 +152,26 @@ function formatSeconds(secs) {
     .map(v => (v < 10 ? "0" + v : v))
     .filter((v, i) => v !== "00" || i > 0)
     .join(":");
+}
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return (
+    s4() +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    "-" +
+    s4() +
+    s4() +
+    s4()
+  );
 }
