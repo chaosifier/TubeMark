@@ -31,7 +31,7 @@ function initIFrame() {
   var draggableWrapper = document.createElement("div");
   var mainPageUrl = chrome.extension.getURL("mainPage.html");
   draggableWrapper.innerHTML =
-    '<div id="draggableWrapper" style="width:400px; height:500px; top:50px; right:20px; position: absolute; z-index: 2147483647 !important; background-color: #f1f1f1; text-align: center; border: 1px solid #d3d3d3;"><div id="draggableWrapperHeader" style="padding: 10px; font-size: 10pt; cursor: move; background-color: #2196F3; color: #fff;">Press to drag <button style="float:right;" onclick="document.getElementById(\'draggableWrapper\').style.display = \'none\';">X</button></div><iframe id="theIframe" src="' +
+    '<div id="draggableWrapper" style="width:400px; height:500px; top:50px; right:20px; position: absolute; z-index: 2147483648 !important; background-color: #f1f1f1; text-align: center; border: 1px solid #d3d3d3;"><div id="draggableWrapperHeader" style="padding: 10px; font-size: 10pt; cursor: move; background-color: #2196F3; color: #fff;">Press to drag <button style="float:right;" onclick="document.getElementById(\'draggableWrapper\').style.display = \'none\';">X</button></div><iframe id="theIframe" src="' +
     mainPageUrl +
     '" style="width:100%; height:100%; display:unset;"/></div>';
 

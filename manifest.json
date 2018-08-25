@@ -5,7 +5,7 @@
   "version": "1",
   "author": "Sagar Dahal",
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "ic_launcher.png",
     "default_title": "WeTube"
   },
   "permissions": ["activeTab", "storage", "http://*/*", "https://*/*"],
@@ -17,7 +17,7 @@
     }
   ],
   "icons": {
-    "256": "icon.png"
+    "256": "ic_launcher.png"
   },
   "web_accessible_resources": ["mainPage.html"]
 }
