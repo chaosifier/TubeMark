@@ -57,36 +57,27 @@ function extractInfoFromCurrentVideo() {
   window.postMessage({ type: "REQUEST_INFO" }, "*");
 }
 
-let videoInfo = {
-  id: "",
-  title: "",
-  playbackTime: 0
-};
-
 // listen for call from page
-window.addEventListener(
-  "message",
-  function(event) {
-    // We only accept messages from ourselves
-    // if (event.source != window) return;
-    if (event.data && event.data.type) {
-      if (event.data.type == "CUR_VIDEO_INFO") {
-        videoInfo.id = getVideoIdFromUrl(event.data.args.url);
-        videoInfo.title = event.data.args.title;
-        videoInfo.playbackTime = event.data.args.playbackTime;
-
-        document
-          .getElementById("theIframe")
-          .contentWindow.postMessage(videoInfo, "*");
-      } else if (event.data.type == "SKIP_TO_TIME") {
-        document.getElementsByClassName("video-stream")[0].currentTime =
-          event.data.time;
-        document.getElementsByClassName("video-stream")[0].play();
-      }
-    }
-  },
-  false
-);
+window.addEventListener("message", function(event) {
+  // TODO the event.source cannot be accessed here without triggering a CSX
+  // exception - need to check that out
+  // We only accept messages from ourselves
+  // if (event.source != window) return;
+  switch (event?.data?.type) {
+    case "CUR_VIDEO_INFO":
+      document.getElementById("theIframe").contentWindow.postMessage({
+        id: getVideoIdFromUrl(event.data.args.url),
+        title: event.data.args.title,
+        playbackTime: event.data.args.playbackTime
+      }, "*");
+    break;
+    case "SKIP_TO_TIME":
+      var videoStream = document.getElementsByClassName("video-stream")[0];
+      videoStream.currentTime = event.data.time;
+      videoStream.play();
+    break;
+  }
+}, false);
 
 function getVideoIdFromUrl(url) {
   var video_id = window.location.search.split("v=")[1];
