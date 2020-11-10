@@ -1,5 +1,4 @@
 window.addEventListener("message", function(event) {
-  console.log("Receieved message: ", event);
   if (event.data && event.data.type == "REQUEST_INFO") {
     window.postMessage({
       type: "CUR_VIDEO_INFO",
