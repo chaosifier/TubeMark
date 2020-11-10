@@ -18,6 +18,17 @@ newBtn.onclick = function() {
   }
 };
 
+function addInfoListenerToWebPage() {
+  var s = document.createElement('script');
+  s.type = "text/javascript";
+  s.src = chrome.runtime.getURL('videoInfo.js');
+  s.onload = function() {
+      this.remove();
+  };
+  (document.head || document.documentElement).appendChild(s);
+}
+addInfoListenerToWebPage();
+
 function performBookmarkIconClickAction() {
   document.getElementsByClassName("video-stream")[0].pause();
   extractInfoFromCurrentVideo();
@@ -43,24 +54,7 @@ function initIFrame() {
 }
 
 function extractInfoFromCurrentVideo() {
-  var theScript = document.createElement("script");
-  theScript.type = "text/javascript";
-  var code = `window.postMessage(
-    { 
-        type: "CUR_VIDEO_INFO", 
-        args: {
-            title : document.getElementsByClassName("ytp-title-link yt-uix-sessionlink")[0].innerText,
-            url : document.getElementsByClassName("ytp-title-link yt-uix-sessionlink")[0].href,
-            playbackTime: document.getElementsByClassName("video-stream")[0].getCurrentTime()
-        }
-    }, "*");`;
-  try {
-    theScript.appendChild(document.createTextNode(code));
-    document.body.appendChild(theScript);
-  } catch (e) {
-    theScript.text = code;
-    document.body.appendChild(theScript);
-  }
+  window.postMessage({ type: "REQUEST_INFO" }, "*");
 }
 
 let videoInfo = {

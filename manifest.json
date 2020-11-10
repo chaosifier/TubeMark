@@ -19,5 +19,5 @@
   "icons": {
     "256": "ic_launcher.png"
   },
-  "web_accessible_resources": ["mainPage.html"]
+  "web_accessible_resources": ["mainPage.html", "videoInfo.js"]
 }
