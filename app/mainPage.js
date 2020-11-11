@@ -22,7 +22,7 @@ window.onmessage = function(e) {
   document.getElementById("videoTitle").innerHTML = e.data.title;
   document.getElementById("inputTime").value = e.data.playbackTime;
 
-  chrome.storage.sync.get([videoInfo.id], function(result) {
+  chrome.storage.local.get([videoInfo.id], function(result) {
     if (result && result[videoInfo.id]) {
       storedCurrentVideoInfo = result[videoInfo.id];
       mapStoredVideoInfoToView(storedCurrentVideoInfo);
@@ -45,7 +45,7 @@ saveBtn.onclick = function() {
   });
   var keyValue = {};
   keyValue[videoInfo.id] = storedCurrentVideoInfo;
-  chrome.storage.sync.set(keyValue, function() {
+  chrome.storage.local.set(keyValue, function() {
     addNewTimelineAccrodion({
       id: newTubemarkId,
       playbackTime: videoInfo.playbackTime,
@@ -76,7 +76,7 @@ $(document).on("click", ".delete-tubemark", function() {
 
     var keyValue = {};
     keyValue[videoInfo.id] = storedCurrentVideoInfo;
-    chrome.storage.sync.set(keyValue, function() {
+    chrome.storage.local.set(keyValue, function() {
       $("#" + timeIdValue + "_accrod").remove();
     });
   }
