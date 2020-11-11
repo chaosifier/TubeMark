@@ -19,5 +19,16 @@
   "icons": {
     "256": "ic_launcher.png"
   },
-  "web_accessible_resources": ["mainPage.html", "videoInfo.js"]
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "options_page": "options.html",
+  "web_accessible_resources": [
+    "options.html",
+    "mainPage.html",
+    "videoInfo.js"
+  ]
 }
