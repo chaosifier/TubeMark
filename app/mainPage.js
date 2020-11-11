@@ -10,7 +10,6 @@ var curTubeMark = {
   playbackTime: 0
 };
 
-var video_ids = [];
 let storedCurrentVideoInfo = {
   title: "",
   tubeMarks: []
@@ -22,11 +21,6 @@ window.onmessage = function(e) {
   console.log("videoinfo", videoInfo);
   document.getElementById("videoTitle").innerHTML = e.data.title;
   document.getElementById("inputTime").value = e.data.playbackTime;
-
-  chrome.storage.sync.get(["video_ids"], function(result) {
-    console.log("video_ids " + JSON.stringify(result));
-    video_ids = result.video_ids;
-  });
 
   chrome.storage.sync.get([videoInfo.id], function(result) {
     if (result && result[videoInfo.id]) {
@@ -41,15 +35,6 @@ window.onmessage = function(e) {
 
 var saveBtn = document.getElementById("btnSave");
 saveBtn.onclick = function() {
-  if (!video_ids || video_ids.indexOf(videoInfo.id) == -1) {
-    if (!video_ids) video_ids = [];
-
-    video_ids.push(videoInfo.id);
-    var keyValue = {};
-    keyValue["video_ids"] = video_ids;
-    chrome.storage.sync.set(keyValue, function() {});
-  }
-
   // treat playbackTime as the primary key
   var newTubemarkId = guid();
   storedCurrentVideoInfo.tubeMarks.push({

@@ -5,11 +5,14 @@ ReactDOM.render(<App />, document.getElementById("app"));
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  chrome.storage.local.get(null, function(items) {
-    var allKeys = Object.keys(items);
+  console.log("Options page loaded");
+  chrome.storage.sync.get(null, function(items) {
+    console.log(Object.keys(items));
 
-    for (var item in items) {
-      console.log(item);
+    for (var key in items) {
+      chrome.storage.sync.get(key, function(item) {
+        console.log(item);
+      });
     }
   });
 });
