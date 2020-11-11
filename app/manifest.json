@@ -8,14 +8,15 @@
     "default_icon": "ic_launcher.png",
     "default_title": "WeTube"
   },
-  "permissions": ["activeTab", "storage"],
-  "content_scripts": [
-    {
-      "matches": ["*://www.youtube.com/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-    }
+  "permissions": [
+    "activeTab",
+    "storage"
   ],
+  "content_scripts": [{
+    "matches": ["*://www.youtube.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }],
   "icons": {
     "256": "ic_launcher.png"
   },

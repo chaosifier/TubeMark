@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./options/options.js",
+  entry: "./app/options/options.js",
   devtool: 'cheap-module-source-map',
   mode: "development",
   module: {
@@ -21,8 +21,8 @@ module.exports = {
   },
   resolve: { extensions: ["*", ".js", ".jsx"] },
   output: {
-    path: path.resolve(__dirname, "dist/"),
-    publicPath: "/dist/",
+    path: path.resolve(__dirname, "app/", "dist/"),
+    publicPath: "app/dist/", //TODO what does publicPath do?
     filename: "options.js"
   }
 };

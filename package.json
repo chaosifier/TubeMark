@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "webpack --mode development",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf app/dist",
     "rebuild": "npm run clean && npm run build"
   }
 }
