@@ -25,10 +25,11 @@
     ],
     "persistent": false
   },
-  "options_page": "options.html",
+  "options_page": "options/options.html",
   "web_accessible_resources": [
-    "options.html",
+    "options/options.html",
     "mainPage.html",
-    "videoInfo.js"
+    "videoInfo.js",
+    "dist/bundle.js"
   ]
 }

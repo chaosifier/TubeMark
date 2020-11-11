@@ -1,3 +1,3 @@
 chrome.browserAction.onClicked.addListener(() => {
-  chrome.tabs.create({ url: 'options.html' });
+  chrome.tabs.create({ url: 'options/options.html' });
 });
