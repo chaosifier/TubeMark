@@ -1,4 +1,93 @@
-.App {
-  margin: 1rem;
+/*
+Color scheme:
+#1a2e80
+#b8a6cc
+#3a8a82
+*/
+
+body {
   font-family: Arial, Helvetica, sans-serif;
+  color: #1a2e80;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: #3a8a82;
+}
+
+.item, .panel-header {
+  padding: 8px;
+}
+
+.panel-header {
+  font-size: 22px;
+  border-bottom: 2px solid #1a2e80;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.item-selected {
+  background-color: #b8a6cc
+}
+
+.master, .detail {
+  padding: 8px;
+}
+
+/* MASTER PANEL STYLING */
+.master {
+  width: 35%;
+  margin: 0;
+  float: left;
+  border: none;
+  box-sizing: border-box;
+  height: 100vh;
+  border-right: 2px solid #1a2e80;
+}
+
+.master-item {
+  font-size: 18px;
+  border-bottom: 1px solid #1a2e80;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.master-item:hover,
+.active-item {
+  background: #1a2e80;
+  color: white;
+  cursor: pointer;
+}
+
+/* DETAIL PANEL STYLING */
+.detail {
+  width: 65%;
+  float: left;
+  box-sizing: border-box;
+  height: 100vh;
+  background-color: white;
+}
+
+.detail-item {
+  font-size: 16px;
+  padding-left: 0px;
+}
+
+.playback-timestamp {
+  display: block;
+  float: left;
+  text-align: right;
+  width: 56px;
+  margin-right: 8px;
 }
