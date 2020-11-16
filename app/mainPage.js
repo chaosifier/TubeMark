@@ -19,7 +19,6 @@ window.onmessage = function(e) {
   storedCurrentVideoInfo.title = e.data.title;
   videoInfo = e.data;
   console.log("videoinfo", videoInfo);
-  document.getElementById("videoTitle").innerHTML = e.data.title;
   document.getElementById("inputTime").value = e.data.playbackTime;
 
   chrome.storage.local.get([videoInfo.id], function(result) {
