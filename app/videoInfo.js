@@ -4,7 +4,6 @@ window.addEventListener("message", function(event) {
       type: "CUR_VIDEO_INFO",
       args: {
           title : document.getElementsByClassName("ytp-title-link yt-uix-sessionlink")[0].innerText,
-          url : document.getElementsByClassName("ytp-title-link yt-uix-sessionlink")[0].href,
           playbackTime: document.getElementsByClassName("video-stream")[0].getCurrentTime()
       }}, "*");
     }

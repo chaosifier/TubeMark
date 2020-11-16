@@ -67,7 +67,7 @@ window.addEventListener("message", function(event) {
   switch (event?.data?.type) {
     case "CUR_VIDEO_INFO":
       document.getElementById("theIframe").contentWindow.postMessage({
-        id: getVideoIdFromUrl(event.data.args.url),
+        id: getVideoIdFromUrl(),
         title: event.data.args.title,
         playbackTime: event.data.args.playbackTime
       }, "*");
@@ -79,7 +79,7 @@ window.addEventListener("message", function(event) {
   }
 }, false);
 
-function getVideoIdFromUrl(url) {
+function getVideoIdFromUrl() {
   var video_id = window.location.search.split("v=")[1];
   var ampersandPosition = video_id.indexOf("&");
   if (ampersandPosition != -1) {
