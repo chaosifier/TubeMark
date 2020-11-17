@@ -3,6 +3,7 @@ let svgString =
 
 let videoId = null;
 let videoTitle = null;
+let firstAccessed = null;
 
 let uiInitialised = false;
 let videoStream = null;
@@ -28,6 +29,7 @@ function initUiIfNecessary(url) {
   let newId = getVideoIdFromUrl(url);
   if (newId && newId != videoId) {
     videoId = newId;
+    firstAccessed = new Date().toISOString();
     console.log("Looking at video:", videoId);
     if (!uiInitialised) {
       //we changed to a new video, and haven't seen one yet, prepare the UI!
@@ -133,6 +135,7 @@ window.addEventListener("message", function(event) {
       document.getElementById("tubemark-iframe").contentWindow.postMessage({
         type: "OPEN_POPUP",
         id: videoId,
+        firstAccessed: firstAccessed,
         title: event.data.args.title,
         playbackTime: event.data.args.playbackTime
       }, "*");

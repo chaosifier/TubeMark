@@ -34,7 +34,7 @@ function preparePopup(newVideo) {
       console.log("no video found, creating new one");
       video.id = newVideo.id;
       video.title = newVideo.title;
-      video.firstAccessed = new Date().toISOString();
+      video.firstAccessed = newVideo.firstAccessed;
       video.bookmarks = [];
     }
   });
@@ -43,6 +43,7 @@ function preparePopup(newVideo) {
 document.getElementById("btnSave").onclick = function() {
   video.bookmarks.push({
     id: uuidv4(),
+    createdTime: new Date().toISOString();
     playbackTime: inputTime.value,
     note: textArea.value
   });
