@@ -82,6 +82,7 @@ a {
 .detail-item {
   font-size: 16px;
   padding-left: 0px;
+  display: block;
 }
 
 .playback-timestamp {

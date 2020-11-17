@@ -14,10 +14,10 @@ window.onmessage = function(event) {
       console.log("close popup");
       timeInput.value = "";
       textArea.value = "";
-    break;
+      break;
     case "OPEN_POPUP":
       preparePopup(event.data);
-    break;
+      break;
   }
 };
 
@@ -42,6 +42,7 @@ function preparePopup(newVideo) {
 
 document.getElementById("btnSave").onclick = function() {
   video.bookmarks.push({
+    id: uuidv4(),
     playbackTime: inputTime.value,
     note: textArea.value
   });
@@ -54,6 +55,16 @@ document.getElementById("btnSave").onclick = function() {
     console.log("Video (" + video.id + ") successfully saved");
     textArea.value = "";
     timeInput.value = "";
-    window.parent.postMessage({ type: "ON_SAVED" }, "*");
+    window.parent.postMessage({
+      type: "ON_SAVED"
+    }, "*");
   });
 };
+
+//Take from:
+// https://stackoverflow.com/a/2117523/1751834
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  );
+}

@@ -68,7 +68,7 @@ function MasterPanel(props) {
 function DetailPanel(props) {
   const bookmarkViews = props.video ? props.video.bookmarks.map((bm) =>
     <li
-      key={bm.playbackTime}
+      key={bm.id}
       className="item detail-item">
       <a className="playback-timestamp" href={utils.buildUrl(props.video.id, bm.playbackTime)}>
         {utils.buildDisplayTimestamp(bm.playbackTime)}

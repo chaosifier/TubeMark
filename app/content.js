@@ -30,6 +30,7 @@ function initUiIfNecessary(url) {
     videoId = newId;
     console.log("Looking at video:", videoId);
     if (!uiInitialised) {
+      //we changed to a new video, and haven't seen one yet, prepare the UI!
       addInfoRequestListenerToWebPage();
       addBookmarkButton();
       initIFrame();
@@ -37,6 +38,7 @@ function initUiIfNecessary(url) {
       videoStream = document.getElementsByClassName("video-stream")[0];
       popup = document.getElementById("tubemark-menu");
     } else {
+      //We just changed to a different video, so close the popup
       closePopup()
     }
   }
