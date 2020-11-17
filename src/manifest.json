@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
   "name": "TubeMark",
-  "description": "Bookmar youtube timeslice.",
-  "version": "1",
+  "description": "Bookmark and take notes on YouTube timeline.",
+  "version": "1.0.1",
   "author": "Sagar Dahal",
   "browser_action": {
     "default_icon": "ic_launcher.png",
-    "default_title": "WeTube"
+    "default_title": "TubeMark"
   },
-  "permissions": ["activeTab", "storage", "http://*/*", "https://*/*"],
+  "permissions": [ "activeTab", "storage", "http://*/*", "https://www.youtube.com/*" ],
   "content_scripts": [
     {
       "matches": ["*://www.youtube.com/*"],
