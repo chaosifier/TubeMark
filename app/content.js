@@ -42,7 +42,21 @@ function initUiIfNecessary(url) {
   }
 }
 
+function getVideoIdFromUrl(url) {
+  if (!url.includes("watch?v")) {
+    return null;
+  }
+
+  var video_id = url.split("v=")[1];
+  var ampersandPosition = video_id.indexOf("&");
+  if (ampersandPosition != -1) {
+    video_id = video_id.substring(0, ampersandPosition);
+  }
+  return video_id;
+}
+
 function closePopup() {
+  videoStream.play();
   popup.style.display = 'none';
   document
     .getElementById("tubemark-iframe")
@@ -70,7 +84,6 @@ function addBookmarkButton() {
   newBtn.append(buttonWrapper.firstChild);
   newBtn.onclick = function() {
     if (popup.style.display == 'block') {
-      videoStream.play();
       closePopup();
     } else {
       window.postMessage({ type: "REQUEST_INFO" }, "*");
@@ -126,18 +139,8 @@ window.addEventListener("message", function(event) {
       videoStream.currentTime = event.data.time;
       videoStream.play();
     break;
+    case "ON_SAVED":
+      closePopup();
+    break;
   }
 }, false);
-
-function getVideoIdFromUrl(url) {
-  if (!url.includes("watch?v")) {
-    return null;
-  }
-
-  var video_id = url.split("v=")[1];
-  var ampersandPosition = video_id.indexOf("&");
-  if (ampersandPosition != -1) {
-    video_id = video_id.substring(0, ampersandPosition);
-  }
-  return video_id;
-}

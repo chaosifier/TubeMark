@@ -51,8 +51,9 @@ document.getElementById("btnSave").onclick = function() {
 
   console.log("saving video", saveObject);
   chrome.storage.local.set(saveObject, function() {
-    textArea.value = "";
-
     console.log("Video (" + video.id + ") successfully saved");
+    textArea.value = "";
+    timeInput.value = "";
+    window.parent.postMessage({ type: "ON_SAVED" }, "*");
   });
 };
