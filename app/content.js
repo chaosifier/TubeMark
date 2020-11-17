@@ -37,13 +37,17 @@ function initUiIfNecessary(url) {
       videoStream = document.getElementsByClassName("video-stream")[0];
       popup = document.getElementById("tubemark-menu");
     } else {
-      popup.style.display = 'none';
-      document
-        .getElementById("tubemark-iframe")
-        .contentWindow
-        .postMessage({ type: "CLOSE_POPUP" }, "*");
+      closePopup()
     }
   }
+}
+
+function closePopup() {
+  popup.style.display = 'none';
+  document
+    .getElementById("tubemark-iframe")
+    .contentWindow
+    .postMessage({ type: "CLOSE_POPUP" }, "*");
 }
 
 function addInfoRequestListenerToWebPage() {
@@ -67,7 +71,7 @@ function addBookmarkButton() {
   newBtn.onclick = function() {
     if (popup.style.display == 'block') {
       videoStream.play();
-      popup.style.display = 'none';
+      closePopup();
     } else {
       window.postMessage({ type: "REQUEST_INFO" }, "*");
     }

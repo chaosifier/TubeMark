@@ -11,6 +11,7 @@ let timeInput = document.getElementById("inputTime");
 window.onmessage = function(event) {
   switch (event?.data?.type) {
     case "CLOSE_POPUP":
+      console.log("close popup");
       timeInput.value = "";
       textArea.value = "";
     break;
@@ -50,6 +51,8 @@ document.getElementById("btnSave").onclick = function() {
 
   console.log("saving video", saveObject);
   chrome.storage.local.set(saveObject, function() {
+    textArea.value = "";
+
     console.log("Video (" + video.id + ") successfully saved");
   });
 };
