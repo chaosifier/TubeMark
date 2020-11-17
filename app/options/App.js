@@ -20,6 +20,7 @@ class App extends Component {
       for (const [_, value] of Object.entries(list)) {
         videos.push(value);
       }
+      videos.sort(sortBy("firstAccessed", true));
       this.setState({ videos: videos });
     });
   }
@@ -41,6 +42,13 @@ class App extends Component {
       </React.Fragment>
     );
   }
+}
+
+function sortBy(property, asc) {
+  return ((a, b) =>
+      (a[property] > b[property]) ? (asc ? 1 : -1) :
+        ((b[property] > a[property]) ? (asc ? -1 : 1) : 0)
+  )
 }
 
 function MasterPanel(props) {
@@ -66,7 +74,11 @@ function MasterPanel(props) {
 }
 
 function DetailPanel(props) {
-  const bookmarkViews = props.video ? props.video.bookmarks.map((bm) =>
+
+  const bookmarks = props.video ?
+    props.video.bookmarks.sort(sortBy("playbackTime", true)) : [];
+
+  const bookmarkViews = bookmarks.map((bm) =>
     <li
       key={bm.id}
       className="item detail-item">
@@ -74,14 +86,15 @@ function DetailPanel(props) {
         {utils.buildDisplayTimestamp(bm.playbackTime)}
       </a> {bm.note}
     </li>
-  ) : [];
+  );
 
   const title = props.video ? props.video.title : "";
+  const releaseDate = props.video ? '(' + props.video.releaseDate + ')' : "";
 
   return (
     <div className="detail">
       <div className="panel-header">
-        <p>{title}</p>
+        <p>{title} {releaseDate}</p>
       </div>
       <ul>
         {bookmarkViews}

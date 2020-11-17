@@ -47,7 +47,7 @@ document.getElementById("btnSave").onclick = function() {
   video.bookmarks.push({
     id: uuidv4(),
     createdTime: new Date().toISOString(),
-    playbackTime: inputTime.value,
+    playbackTime: parseInt(inputTime.value),
     note: textArea.value
   });
 
