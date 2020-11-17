@@ -36,7 +36,8 @@ function preparePopup(newVideo) {
       video.id = newVideo.id;
       video.title = newVideo.title;
       video.firstAccessed = newVideo.firstAccessed;
-      video.releaseDate = newVideo.releaseDate;
+      //TODO - handle different date formats - check locales, allow user to set it themselves?
+      video.releaseDate = moment(newVideo.releaseDate, 'DD.MM.YYYY').format('YYYY-MM-DD');
       video.bookmarks = [];
     }
   });
