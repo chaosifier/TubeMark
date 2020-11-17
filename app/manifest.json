@@ -10,7 +10,8 @@
   },
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "content_scripts": [{
     "matches": ["*://www.youtube.com/*"],

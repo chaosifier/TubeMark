@@ -5,30 +5,44 @@ let video = {
   bookmarks: []
 };
 
-window.onmessage = function(e) {
-  document.getElementById("inputTime").value =
-    Math.max(Math.round(e.data.playbackTime) - 5, 0);
+let textArea = document.getElementById("textAreaNote");
+let timeInput = document.getElementById("inputTime");
 
-  chrome.storage.local.get([video.id], function(result) {
-    if (result && result[video.id]) {
-      video = result[video.id];
+window.onmessage = function(event) {
+  switch (event?.data?.type) {
+    case "CLOSE_POPUP":
+      timeInput.value = "";
+      textArea.value = "";
+    break;
+    case "OPEN_POPUP":
+      preparePopup(event.data);
+    break;
+  }
+};
+
+function preparePopup(newVideo) {
+  console.log("Got request to open popup:", newVideo);
+  document.getElementById("inputTime").value =
+    Math.max(Math.round(newVideo.playbackTime) - 5, 0);
+
+  chrome.storage.local.get([newVideo.id], function(result) {
+    if (result && result[newVideo.id]) {
+      video = result[newVideo.id];
       console.log("retrieved current video info", video);
     } else {
       console.log("no video found, creating new one");
-      video.id = e.data.id;
-      video.title = e.data.title;
+      video.id = newVideo.id;
+      video.title = newVideo.title;
       video.firstAccessed = new Date().toISOString();
+      video.bookmarks = [];
     }
   });
-};
+}
 
 document.getElementById("btnSave").onclick = function() {
-  var playbackTime = document.getElementById("inputTime").value;
-  var note = document.getElementById("textAreaNote").value;
-
   video.bookmarks.push({
-    playbackTime: playbackTime,
-    note: note
+    playbackTime: inputTime.value,
+    note: textArea.value
   });
 
   let saveObject = {};
