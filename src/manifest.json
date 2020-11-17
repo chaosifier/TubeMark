@@ -8,7 +8,7 @@
     "default_icon": "ic_launcher.png",
     "default_title": "TubeMark"
   },
-  "permissions": [ "activeTab", "storage", "http://*/*", "https://www.youtube.com/*" ],
+  "permissions": [ "activeTab", "storage", "https://www.youtube.com/*" ],
   "content_scripts": [
     {
       "matches": ["*://www.youtube.com/*"],
