@@ -1,6 +1,7 @@
 let video = {
   id: "",
   title: "",
+  releaseDate: "",
   firstAccessed: "", //TODO could save this whenever we figure out the URL reload
   bookmarks: []
 };
@@ -35,6 +36,7 @@ function preparePopup(newVideo) {
       video.id = newVideo.id;
       video.title = newVideo.title;
       video.firstAccessed = newVideo.firstAccessed;
+      video.releaseDate = newVideo.releaseDate;
       video.bookmarks = [];
     }
   });
@@ -43,7 +45,7 @@ function preparePopup(newVideo) {
 document.getElementById("btnSave").onclick = function() {
   video.bookmarks.push({
     id: uuidv4(),
-    createdTime: new Date().toISOString();
+    createdTime: new Date().toISOString(),
     playbackTime: inputTime.value,
     note: textArea.value
   });
