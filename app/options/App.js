@@ -8,16 +8,19 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      videos: utils.testVideos,
+      videos: [],
       selectedIdx: 0,
     };
   }
 
   componentDidMount() {
-    chrome.storage.local.get(null, function(keys) {
-      chrome.storage.local.get(keys, function(list) {
-        console.log(list); //TODO set app state here!
-      });
+    chrome.storage.local.get(null, (list) => {
+      console.log("Video data loaded", list);
+      const videos = [];
+      for (const [_, value] of Object.entries(list)) {
+        videos.push(value);
+      }
+      this.setState({ videos: videos });
     });
   }
 
@@ -43,7 +46,7 @@ class App extends Component {
 function MasterPanel(props) {
   const videoViews = props.videos.map((video, i) =>
     <li
-      key={video.key}
+      key={video.id}
       className={"item master-item" + (i == props.selected ? " item-selected" : "")}
       onClick={() => props.onVideoClicked(i)}>
         {video.title}
@@ -63,20 +66,22 @@ function MasterPanel(props) {
 }
 
 function DetailPanel(props) {
-  const bookmarkViews = props.video.bookmarks.map((bm) =>
+  const bookmarkViews = props.video ? props.video.bookmarks.map((bm) =>
     <li
-      key={bm.playbackTimeSec}
+      key={bm.playbackTime}
       className="item detail-item">
-      <a className="playback-timestamp" href={utils.buildUrl(props.video.key, bm.playbackTimeSec)}>
-        {utils.buildDisplayTimestamp(bm.playbackTimeSec)}
-      </a> {bm.label}
+      <a className="playback-timestamp" href={utils.buildUrl(props.video.id, bm.playbackTime)}>
+        {utils.buildDisplayTimestamp(bm.playbackTime)}
+      </a> {bm.note}
     </li>
-  );
+  ) : [];
+
+  const title = props.video ? props.video.title : "";
 
   return (
     <div className="detail">
       <div className="panel-header">
-        <p>{props.video.title}</p>
+        <p>{title}</p>
       </div>
       <ul>
         {bookmarkViews}
