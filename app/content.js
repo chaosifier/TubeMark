@@ -96,14 +96,15 @@ function addBookmarkButton() {
 }
 
 function initIFrame() {
+
   var popup = document.createElement("div");
   popup.id = "tubemark-menu";
   popup.style.cssText = `
-    width:400px;
-    height:500px;
-    top:50px;
-    right:20px;
+    width: 382px;
+    height: 250px;
     position: absolute;
+    bottom: 0px;
+    right: 0px;
     z-index: 2147483648 !important;
     background-color: #f1f1f1;
     text-align: center;
@@ -118,7 +119,7 @@ function initIFrame() {
       style="width:100%; height:100%; display:unset;"/>
   `;
 
-  document.body.append(popup);
+  document.getElementsByClassName("ytp-iv-player-content")[0].append(popup);
 }
 
 // listen for call from page
