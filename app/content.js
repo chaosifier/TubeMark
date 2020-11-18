@@ -12,7 +12,7 @@ let iframe = null;
 console.log("Tubemark content.js started");
 //In case we open up to a video page directly, we won't be informed of a URL
 //change, so try to init the UI
-initUiIfNecessary(window.location.href);
+initUiIfNecessary(window.location.href).then(() => {});
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
@@ -20,11 +20,11 @@ chrome.runtime.onMessage.addListener(
       //In case we come from the Youtube homepage, in which case the video player
       //DOM hasn't been build yet, we need to wait for a URL change before we can
       //init our own UI.
-      initUiIfNecessary(request.url);
+      initUiIfNecessary(request.url).then(() => {});
     }
 });
 
-function initUiIfNecessary(url) {
+async function initUiIfNecessary(url) {
   console.log("initUiIfNecessary", url);
   let newId = getVideoIdFromUrl(url);
   if (newId && newId != videoId) {
@@ -34,8 +34,8 @@ function initUiIfNecessary(url) {
     if (!uiInitialised) {
       //we changed to a new video, and haven't seen one yet, prepare the UI!
       addInfoRequestListenerToWebPage();
-      addBookmarkButton();
-      initIFrame();
+      await addBookmarkButton();
+      await initIFrame();
       uiInitialised = true;
       videoStream = document.getElementsByClassName("video-stream")[0];
       popup = document.getElementById("tubemark-menu");
@@ -76,7 +76,8 @@ function addInfoRequestListenerToWebPage() {
   (document.head || document.documentElement).appendChild(s);
 }
 
-function addBookmarkButton() {
+async function addBookmarkButton() {
+  const controls = await awaitFirstClassElement("ytp-right-controls");
   var buttonWrapper = document.createElement("div");
   buttonWrapper.innerHTML = svgString.trim();
 
@@ -91,11 +92,11 @@ function addBookmarkButton() {
       window.postMessage({ type: "REQUEST_INFO" }, "*");
     }
   };
-  document.getElementsByClassName("ytp-right-controls")[0].append(newBtn);
+  controls.append(newBtn);
 }
 
-function initIFrame() {
-
+async function initIFrame() {
+  const playerContent = await awaitFirstClassElement("ytp-iv-player-content");
   var popup = document.createElement("div");
   popup.id = "tubemark-menu";
   popup.style.cssText = `
@@ -117,7 +118,17 @@ function initIFrame() {
       style="width:100%; height:100%; display:unset;"/>
   `;
 
-  document.getElementsByClassName("ytp-iv-player-content")[0].append(popup);
+  playerContent.append(popup);
+}
+
+async function awaitFirstClassElement(className) {
+  //TODO should be careful, what happens if we never find the element?
+  let element = document.getElementsByClassName(className)[0];
+  while(!element) {
+    await new Promise(r => setTimeout(r, 200));
+    element = document.getElementsByClassName(className)[0];
+  }
+  return element;
 }
 
 // listen for call from page
