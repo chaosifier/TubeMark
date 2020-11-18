@@ -25,11 +25,17 @@ a {
 }
 
 .panel-header {
+  height: 42px;
   font-size: 22px;
   border-bottom: 2px solid #1a2e80;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.panel-header .subtitle {
+  font-size: 14px;
+  color: #b8a6cc;
 }
 
 .text-center {

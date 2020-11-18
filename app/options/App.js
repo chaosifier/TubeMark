@@ -20,7 +20,7 @@ class App extends Component {
       for (const [_, value] of Object.entries(list)) {
         videos.push(value);
       }
-      videos.sort(sortBy("firstAccessed", true));
+      videos.sort(sortBy("firstAccessed", false));
       this.setState({ videos: videos });
     });
   }
@@ -74,7 +74,6 @@ function MasterPanel(props) {
 }
 
 function DetailPanel(props) {
-
   const bookmarks = props.video ?
     props.video.bookmarks.sort(sortBy("playbackTime", true)) : [];
 
@@ -88,17 +87,32 @@ function DetailPanel(props) {
     </li>
   );
 
-  const title = props.video ? props.video.title : "";
-  const releaseDate = props.video ? '(' + props.video.releaseDate + ')' : "";
+  const title = props.video ? props.video.title : "No videos";
+  const releaseDate = props.video ? props.video.releaseDate : "";
+  const firstAccessed = props.video ? props.video.firstAccessed : "";
 
   return (
     <div className="detail">
-      <div className="panel-header">
-        <p>{title} {releaseDate}</p>
-      </div>
+      <VideoTitle
+        className="panel-header"
+        title={title}
+        releaseDate={releaseDate}
+        firstAccessed={firstAccessed}
+      />
       <ul>
         {bookmarkViews}
       </ul>
+    </div>
+  )
+}
+
+function VideoTitle(props) {
+  const releaseDate = new Date(props.releaseDate).toLocaleDateString();
+  const firstAccessed = new Date(props.firstAccessed).toLocaleDateString();
+  return (
+    <div className={props.className}>
+      <p className="title">{props.title}</p>
+      <p className="subtitle">Released: {releaseDate}, first accessed: {firstAccessed}</p>
     </div>
   )
 }
