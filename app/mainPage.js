@@ -44,6 +44,9 @@ function preparePopup(newVideo) {
 }
 
 document.getElementById("btnSave").onclick = function() {
+  if (textArea.value === "") {
+    return;
+  }
   video.bookmarks.push({
     id: uuidv4(),
     createdTime: new Date().toISOString(),
