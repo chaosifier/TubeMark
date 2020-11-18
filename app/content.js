@@ -100,9 +100,9 @@ function initIFrame() {
   var popup = document.createElement("div");
   popup.id = "tubemark-menu";
   popup.style.cssText = `
-    width: 382px;
-    height: 250px;
     position: absolute;
+
+    height: auto;
     bottom: 0px;
     right: 0px;
     z-index: 2147483648 !important;
@@ -115,7 +115,8 @@ function initIFrame() {
   popup.innerHTML = `
     <iframe
       id="tubemark-iframe"
-      src="${chrome.extension.getURL("mainPage.html")}"
+      onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";o.style.width=o.contentWindow.document.body.scrollWidth+"px";}(this));'
+      src="${chrome.extension.getURL("popup.html")}"
       style="width:100%; height:100%; display:unset;"/>
   `;
 

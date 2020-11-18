@@ -30,7 +30,8 @@
   "options_page": "options/options.html",
   "web_accessible_resources": [
     "options/options.html",
-    "mainPage.html",
+    "popup.html",
+    "popup.css",
     "videoInfo.js",
     "dist/bundle.js"
   ]
