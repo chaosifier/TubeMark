@@ -52,19 +52,23 @@ function sortBy(property, asc) {
 }
 
 function MasterPanel(props) {
-  const videoViews = props.videos.map((video, i) =>
-    <li
-      key={video.id}
-      className={"item master-item" + (i == props.selected ? " item-selected" : "")}
-      onClick={() => props.onVideoClicked(i)}>
-        {video.title}
-    </li>
-  );
+  const videoViews = props.videos.map((video, i) => {
+    const sel = i == props.selected;
+    return (
+      <li className={"master-item" + (sel ? " item-selected" : "")}
+        key={video.id}
+        onClick={() => props.onVideoClicked(i)}>
+        {sel ? <div className="spacer"/> : ""}
+        <p className={"title"}>{video.title}</p>
+      </li>
+    );
+  });
 
   return (
     <div className="master">
       <div className="panel-header">
-        <p>Videos</p>
+        <p className="title">TubeMark Library</p>
+        <p className="subtitle">Sorted by first-accessed time</p>
       </div>
       <ul>
         {videoViews}
@@ -80,7 +84,7 @@ function DetailPanel(props) {
   const bookmarkViews = bookmarks.map((bm) =>
     <li
       key={bm.id}
-      className="item detail-item">
+      className="detail-item">
       <a className="playback-timestamp" href={utils.buildUrl(props.video.id, bm.playbackTime)}>
         {utils.buildDisplayTimestamp(bm.playbackTime)}
       </a> {bm.note}
