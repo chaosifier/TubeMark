@@ -7,6 +7,7 @@ let firstAccessed = null;
 let uiInitialised = false;
 let videoStream = null;
 let popup = null;
+let iframe = null;
 
 console.log("Tubemark content.js started");
 //In case we open up to a video page directly, we won't be informed of a URL
@@ -38,6 +39,7 @@ function initUiIfNecessary(url) {
       uiInitialised = true;
       videoStream = document.getElementsByClassName("video-stream")[0];
       popup = document.getElementById("tubemark-menu");
+      iframe = document.getElementById("tubemark-iframe");
     } else {
       //We just changed to a different video, so close the popup
       closePopup()
@@ -61,10 +63,7 @@ function getVideoIdFromUrl(url) {
 function closePopup() {
   videoStream.play();
   popup.style.display = 'none';
-  document
-    .getElementById("tubemark-iframe")
-    .contentWindow
-    .postMessage({ type: "CLOSE_POPUP" }, "*");
+  iframe.contentWindow.postMessage({ type: "CLOSE_POPUP" }, "*");
 }
 
 function addInfoRequestListenerToWebPage() {
@@ -101,21 +100,19 @@ function initIFrame() {
   popup.id = "tubemark-menu";
   popup.style.cssText = `
     position: absolute;
-
-    height: auto;
+    height: 32px;
+    width: 600px;
+    padding: 8px;
     bottom: 0px;
     right: 0px;
     z-index: 2147483648 !important;
-    background-color: #f1f1f1;
-    text-align: center;
-    border: 1px solid #d3d3d3;
+    background-color: #282828;
     display: none;
   `;
 
   popup.innerHTML = `
     <iframe
       id="tubemark-iframe"
-      onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";o.style.width=o.contentWindow.document.body.scrollWidth+"px";}(this));'
       src="${chrome.extension.getURL("popup.html")}"
       style="width:100%; height:100%; display:unset;"/>
   `;
@@ -133,7 +130,7 @@ window.addEventListener("message", function(event) {
     case "CUR_VIDEO_INFO":
       popup.style.display = 'block';
       videoStream.pause();
-      document.getElementById("tubemark-iframe").contentWindow.postMessage({
+      iframe.contentWindow.postMessage({
         type: "OPEN_POPUP",
         id: videoId,
         firstAccessed: firstAccessed,

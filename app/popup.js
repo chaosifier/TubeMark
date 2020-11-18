@@ -6,14 +6,16 @@ let video = {
   bookmarks: []
 };
 
-let textArea = document.getElementById("textAreaNote");
-let timeInput = document.getElementById("inputTime");
+let playbackTime = -1;
+
+let textArea = document.getElementById("noteTextArea");
+let playbackTimeInput = document.getElementById("playbackTime");
 
 window.onmessage = function(event) {
   switch (event?.data?.type) {
     case "CLOSE_POPUP":
       console.log("close popup");
-      timeInput.value = "";
+      playbackTimeInput.innerHTML = "";
       textArea.value = "";
       break;
     case "OPEN_POPUP":
@@ -24,8 +26,8 @@ window.onmessage = function(event) {
 
 function preparePopup(newVideo) {
   console.log("Got request to open popup:", newVideo);
-  document.getElementById("inputTime").value =
-    Math.max(Math.round(newVideo.playbackTime) - 5, 0);
+  playbackTime = Math.max(Math.round(newVideo.playbackTime) - 5, 0);
+  playbackTimeInput.innerHTML = buildDisplayTimestamp(playbackTime);
 
   chrome.storage.local.get([newVideo.id], function(result) {
     if (result && result[newVideo.id]) {
@@ -43,14 +45,14 @@ function preparePopup(newVideo) {
   });
 }
 
-document.getElementById("btnSave").onclick = function() {
+document.getElementById("saveBtn").onclick = function() {
   if (textArea.value === "") {
     return;
   }
   video.bookmarks.push({
     id: uuidv4(),
     createdTime: new Date().toISOString(),
-    playbackTime: parseInt(inputTime.value),
+    playbackTime: parseInt(playbackTime),
     note: textArea.value
   });
 
@@ -61,10 +63,8 @@ document.getElementById("btnSave").onclick = function() {
   chrome.storage.local.set(saveObject, function() {
     console.log("Video (" + video.id + ") successfully saved");
     textArea.value = "";
-    timeInput.value = "";
-    window.parent.postMessage({
-      type: "ON_SAVED"
-    }, "*");
+    playbackTimeInput.innerHTML = "";
+    window.parent.postMessage({ type: "ON_SAVED" }, "*");
   });
 };
 
@@ -74,4 +74,27 @@ function uuidv4() {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
   );
+}
+
+//TODO merge with options/utils.js somehow
+function buildDisplayTimestamp(seconds) {
+  var hours   = Math.floor(seconds / 3600);
+  var minutes = Math.floor((seconds - (hours * 3600)) / 60);
+  var seconds = seconds - (hours * 3600) - (minutes * 60);
+  var time = "";
+
+  if (hours != 0) {
+    time = hours+":";
+  }
+  if (minutes != 0 || time !== "") {
+    minutes = (minutes < 10 && time !== "") ? "0"+minutes : String(minutes);
+    time += minutes+":";
+  }
+  if (time === "") {
+    time = seconds+"s";
+  }
+  else {
+    time += (seconds < 10) ? "0"+seconds : String(seconds);
+  }
+  return time;
 }

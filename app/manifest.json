@@ -32,6 +32,7 @@
     "options/options.html",
     "popup.html",
     "popup.css",
+    "reset.css",
     "videoInfo.js",
     "dist/bundle.js"
   ]

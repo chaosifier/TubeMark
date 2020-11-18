@@ -1,31 +1,32 @@
-<!doctype html>
-<html>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+}
 
-<head>
-  <link rel="stylesheet" href="bootstrap.min.css">
-  <title>TubeMark</title>
-  <style>
-    body {
-      font-size: 0.8rem;
-    }
-  </style>
-</head>
+.container {
+  display: flex;
+  height: 32px;
+  width: 600px;
+}
 
-<body>
-  <div class="container">
-    <div>
-      <label for="inputTime">Time:</label>
-      <input id="inputTime" name="inputTime" type="text" placeholder="0.00" />
-    </div>
-    <div>
-      <label>Notes:</label>
-      <textarea id="textAreaNote" rows="3" maxlength="252"></textarea>
-    </div>
-    <input id="btnSave" type="button" value="Save"/>
-  </div>
-  <script src="jquery-3.3.1.slim.min.js"></script>
-  <script src="mainPage.js"></script>
-  <script src="moment.min.js"></script>
-</body>
+#playbackTime {
+  padding: 8px;
+  color: white;
+  font-size: 14px;
+}
 
-</html>
+#noteTextArea {
+  flex-grow: 1;
+  font-size: 14px;
+}
+
+#saveBtn {
+  border: none;
+  background-color: red;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+}
