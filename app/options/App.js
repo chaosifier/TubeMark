@@ -1,7 +1,10 @@
 import React, {Component} from "react";
 import "./App.css";
 import "./reset.css";
+import moment from "moment";
 import * as utils from "./utils.js";
+
+const roamDateFormat = 'MMMM Do, YYYY';
 
 class App extends Component {
 
@@ -111,12 +114,12 @@ function DetailPanel(props) {
 }
 
 function VideoTitle(props) {
-  const releaseDate = new Date(props.releaseDate).toLocaleDateString();
-  const firstAccessed = new Date(props.firstAccessed).toLocaleDateString();
+  const releaseDate = moment(props.releaseDate).format(roamDateFormat);
+  const firstAccessed = moment(props.firstAccessed).format(roamDateFormat);
   return (
     <div className={props.className}>
       <p className="title">{props.title}</p>
-      <p className="subtitle">Released: {releaseDate}, first accessed: {firstAccessed}</p>
+      <p className="subtitle">Released: {releaseDate} | First accessed: {firstAccessed}</p>
     </div>
   )
 }
