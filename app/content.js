@@ -34,8 +34,8 @@ async function initUiIfNecessary(url) {
     if (!uiInitialised) {
       //we changed to a new video, and haven't seen one yet, prepare the UI!
       addInfoRequestListenerToWebPage();
-      await addBookmarkButton();
       await initIFrame();
+      await addBookmarkButton();
       uiInitialised = true;
       videoStream = document.getElementsByClassName("video-stream")[0];
       popup = document.getElementById("tubemark-menu");
@@ -77,7 +77,7 @@ function addInfoRequestListenerToWebPage() {
 }
 
 async function addBookmarkButton() {
-  const controls = await awaitFirstClassElement("ytp-right-controls");
+  const controls = await awaitElement(".ytp-right-controls");
   var buttonWrapper = document.createElement("div");
   buttonWrapper.innerHTML = svgString.trim();
 
@@ -96,7 +96,8 @@ async function addBookmarkButton() {
 }
 
 async function initIFrame() {
-  const playerContent = await awaitFirstClassElement("ytp-iv-player-content");
+
+  const playerContent = await awaitElement("#player-container");
   var popup = document.createElement("div");
   popup.id = "tubemark-menu";
   popup.style.cssText = `
@@ -104,8 +105,8 @@ async function initIFrame() {
     height: 32px;
     width: 600px;
     padding: 8px;
-    bottom: 0px;
-    right: 0px;
+    bottom: 45px;
+    right: 12px;
     z-index: 2147483648 !important;
     background-color: #282828;
     display: none;
@@ -121,12 +122,12 @@ async function initIFrame() {
   playerContent.append(popup);
 }
 
-async function awaitFirstClassElement(className) {
+async function awaitElement(query) {
   //TODO should be careful, what happens if we never find the element?
-  let element = document.getElementsByClassName(className)[0];
+  let element = document.querySelector(query);
   while(!element) {
     await new Promise(r => setTimeout(r, 200));
-    element = document.getElementsByClassName(className)[0];
+    element = document.querySelector(query);
   }
   return element;
 }
