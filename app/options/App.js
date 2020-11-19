@@ -34,13 +34,37 @@ class App extends Component {
     })
   }
 
+  onVideoDeleted(i) {
+    const video = this.state.videos[i];
+    const videoId = video.id;
+
+    if (!confirm(`Delete notes for: "${video.title}"?`)) {
+      return;
+    }
+
+    chrome.storage.local.remove(videoId, () => {
+      //recalculate the index, in case it has changed
+      const videos = this.state.videos;
+      var idx = this.state.videos.findIndex(video => {
+        return video.id === videoId;
+      })
+      videos.splice(idx, 1);
+      this.setState({
+        videos: videos,
+        selectedIdx: 0
+      });
+    });
+  }
+
   render() {
     return (
       <React.Fragment>
         <MasterPanel
           selected={this.state.selectedIdx}
           videos={this.state.videos}
-          onVideoClicked={(i) => this.onVideoClicked(i)}/>
+          onVideoClicked={(i) => this.onVideoClicked(i)}
+          onVideoDeleted={(i) => this.onVideoDeleted(i)}
+        />
         <DetailPanel video={this.state.videos[this.state.selectedIdx]}/>
       </React.Fragment>
     );
@@ -63,6 +87,9 @@ function MasterPanel(props) {
         onClick={() => props.onVideoClicked(i)}>
         {sel ? <div className="spacer"/> : ""}
         <p className={"title"}>{video.title}</p>
+        <button
+          onClick={() => props.onVideoDeleted(i)}
+          className={"delete-btn"} type="button">Delete</button>
       </li>
     );
   });

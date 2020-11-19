@@ -93,6 +93,17 @@ a {
   cursor: pointer;
 }
 
+.master .delete-btn {
+  border: none;
+  background-color: var(--color-background-main);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  padding: 8px;
+  cursor: pointer;
+}
+
 /* DETAIL PANEL STYLING */
 .detail {
   width: 65%;
