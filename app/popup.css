@@ -15,7 +15,7 @@ body {
   font-size: 14px;
 }
 
-#noteTextArea {
+#noteInput {
   flex-grow: 1;
   font-size: 14px;
 }

@@ -7,16 +7,23 @@ let video = {
 };
 
 let playbackTime = -1;
-
-let textArea = document.getElementById("noteTextArea");
 let playbackTimeInput = document.getElementById("playbackTime");
+
+let noteInput = document.getElementById("noteInput");
+noteInput.addEventListener('keydown', function(e) {
+	if(e.keyCode == 13 && e.metaKey) {
+		saveBookmark();
+	}
+});
+
+document.getElementById("saveBtn").onclick = saveBookmark;
 
 window.onmessage = function(event) {
   switch (event?.data?.type) {
     case "CLOSE_POPUP":
       console.log("close popup");
       playbackTimeInput.innerHTML = "";
-      textArea.value = "";
+      noteInput.value = "";
       break;
     case "OPEN_POPUP":
       preparePopup(event.data);
@@ -45,15 +52,15 @@ function preparePopup(newVideo) {
   });
 }
 
-document.getElementById("saveBtn").onclick = function() {
-  if (textArea.value === "") {
+function saveBookmark() {
+  if (noteInput.value === "") {
     return;
   }
   video.bookmarks.push({
     id: uuidv4(),
     createdTime: new Date().toISOString(),
     playbackTime: parseInt(playbackTime),
-    note: textArea.value
+    note: noteInput.value
   });
 
   let saveObject = {};
@@ -62,11 +69,11 @@ document.getElementById("saveBtn").onclick = function() {
   console.log("saving video", saveObject);
   chrome.storage.local.set(saveObject, function() {
     console.log("Video (" + video.id + ") successfully saved");
-    textArea.value = "";
+    noteInput.value = "";
     playbackTimeInput.innerHTML = "";
     window.parent.postMessage({ type: "ON_SAVED" }, "*");
   });
-};
+}
 
 //Take from:
 // https://stackoverflow.com/a/2117523/1751834
