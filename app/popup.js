@@ -33,6 +33,7 @@ window.onmessage = function(event) {
 
 function preparePopup(newVideo) {
   console.log("Got request to open popup:", newVideo);
+  noteInput.focus();
   playbackTime = Math.round(newVideo.playbackTime);
   playbackTimeInput.innerHTML = buildDisplayTimestamp(playbackTime);
 
