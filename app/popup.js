@@ -33,7 +33,7 @@ window.onmessage = function(event) {
 
 function preparePopup(newVideo) {
   console.log("Got request to open popup:", newVideo);
-  playbackTime = Math.max(Math.round(newVideo.playbackTime) - 5, 0);
+  playbackTime = Math.round(newVideo.playbackTime);
   playbackTimeInput.innerHTML = buildDisplayTimestamp(playbackTime);
 
   chrome.storage.local.get([newVideo.id], function(result) {
