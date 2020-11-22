@@ -16,11 +16,16 @@ initUiIfNecessary(window.location.href).then(() => {});
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (request.message === 'ON_URL_CHANGE') {
-      //In case we come from the Youtube homepage, in which case the video player
-      //DOM hasn't been build yet, we need to wait for a URL change before we can
-      //init our own UI.
-      initUiIfNecessary(request.url).then(() => {});
+    switch (request.message) {
+      case 'ON_URL_CHANGE':
+        //In case we come from the Youtube homepage, in which case the video player
+        //DOM hasn't been build yet, we need to wait for a URL change before we can
+        //init our own UI.
+        initUiIfNecessary(request.url).then(() => {});
+        break;
+      case 'ON_SHORTCUT_PRESSED':
+        togglePopup();
+        break;
     }
 });
 
@@ -85,14 +90,16 @@ async function addBookmarkButton() {
   newBtn.className = "ytp-fullscreen-button ytp-button";
   newBtn.title = "Bookmark";
   newBtn.append(buttonWrapper.firstChild);
-  newBtn.onclick = function() {
-    if (popup.style.display == 'block') {
-      closePopup();
-    } else {
-      window.postMessage({ type: "REQUEST_INFO" }, "*");
-    }
-  };
+  newBtn.onclick = togglePopup;
   controls.append(newBtn);
+}
+
+function togglePopup() {
+  if (popup.style.display == 'block') {
+    closePopup();
+  } else {
+    window.postMessage({ type: "REQUEST_INFO" }, "*");
+  }
 }
 
 async function initIFrame() {
