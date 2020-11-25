@@ -9,7 +9,6 @@ let videoStream = null;
 let popup = null;
 let iframe = null;
 
-console.log("Tubemark content.js started");
 //In case we open up to a video page directly, we won't be informed of a URL
 //change, so try to init the UI
 initUiIfNecessary(window.location.href).then(() => {});
@@ -30,12 +29,10 @@ chrome.runtime.onMessage.addListener(
 });
 
 async function initUiIfNecessary(url) {
-  console.log("initUiIfNecessary", url);
   let newId = getVideoIdFromUrl(url);
   if (newId && newId != videoId) {
     videoId = newId;
     firstAccessed = new Date().toISOString();
-    console.log("Looking at video:", videoId);
     if (!uiInitialised) {
       //we changed to a new video, and haven't seen one yet, prepare the UI!
       addInfoRequestListenerToWebPage();

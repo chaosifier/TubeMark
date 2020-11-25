@@ -18,7 +18,6 @@ class App extends Component {
 
   componentDidMount() {
     chrome.storage.local.get(null, (list) => {
-      console.log("Video data loaded", list);
       const videos = [];
       for (const [_, value] of Object.entries(list)) {
         videos.push(value);

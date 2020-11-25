@@ -26,7 +26,6 @@ document.getElementById("saveBtn").onclick = saveBookmark;
 window.onmessage = function(event) {
   switch (event?.data?.type) {
     case "CLOSE_POPUP":
-      console.log("close popup");
       playbackTimeInput.innerHTML = "";
       noteInput.value = "";
       break;
@@ -37,7 +36,6 @@ window.onmessage = function(event) {
 };
 
 function preparePopup(newVideo) {
-  console.log("Got request to open popup:", newVideo);
   noteInput.focus();
   playbackTime = Math.round(newVideo.playbackTime);
   playbackTimeInput.innerHTML = utils.buildDisplayTimestamp(playbackTime);
@@ -45,9 +43,7 @@ function preparePopup(newVideo) {
   chrome.storage.local.get([newVideo.id], function(result) {
     if (result && result[newVideo.id]) {
       video = result[newVideo.id];
-      console.log("retrieved current video info", video);
     } else {
-      console.log("no video found, creating new one");
       video.id = newVideo.id;
       video.title = newVideo.title;
       video.firstAccessed = newVideo.firstAccessed;
@@ -72,9 +68,7 @@ function saveBookmark() {
   let saveObject = {};
   saveObject[video.id] = video;
 
-  console.log("saving video", saveObject);
   chrome.storage.local.set(saveObject, function() {
-    console.log("Video (" + video.id + ") successfully saved");
     noteInput.value = "";
     playbackTimeInput.innerHTML = "";
     window.parent.postMessage({ type: "ON_SAVED" }, "*");
