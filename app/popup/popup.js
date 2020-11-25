@@ -1,3 +1,8 @@
+import "../common/reset.css";
+import "./popup.css";
+import moment from "moment";
+import * as utils from "../common/utils.js";
+
 let video = {
   id: "",
   title: "",
@@ -35,7 +40,7 @@ function preparePopup(newVideo) {
   console.log("Got request to open popup:", newVideo);
   noteInput.focus();
   playbackTime = Math.round(newVideo.playbackTime);
-  playbackTimeInput.innerHTML = buildDisplayTimestamp(playbackTime);
+  playbackTimeInput.innerHTML = utils.buildDisplayTimestamp(playbackTime);
 
   chrome.storage.local.get([newVideo.id], function(result) {
     if (result && result[newVideo.id]) {
@@ -58,7 +63,7 @@ function saveBookmark() {
     return;
   }
   video.bookmarks.push({
-    id: uuidv4(),
+    id: utils.uuidv4(),
     createdTime: new Date().toISOString(),
     playbackTime: parseInt(playbackTime),
     note: noteInput.value
@@ -74,35 +79,4 @@ function saveBookmark() {
     playbackTimeInput.innerHTML = "";
     window.parent.postMessage({ type: "ON_SAVED" }, "*");
   });
-}
-
-//Take from:
-// https://stackoverflow.com/a/2117523/1751834
-function uuidv4() {
-  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  );
-}
-
-//TODO merge with options/utils.js somehow
-function buildDisplayTimestamp(seconds) {
-  var hours   = Math.floor(seconds / 3600);
-  var minutes = Math.floor((seconds - (hours * 3600)) / 60);
-  var seconds = seconds - (hours * 3600) - (minutes * 60);
-  var time = "";
-
-  if (hours != 0) {
-    time = hours+":";
-  }
-  if (minutes != 0 || time !== "") {
-    minutes = (minutes < 10 && time !== "") ? "0"+minutes : String(minutes);
-    time += minutes+":";
-  }
-  if (time === "") {
-    time = seconds+"s";
-  }
-  else {
-    time += (seconds < 10) ? "0"+seconds : String(seconds);
-  }
-  return time;
 }

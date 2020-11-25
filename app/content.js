@@ -122,7 +122,7 @@ async function initIFrame() {
   popup.innerHTML = `
     <iframe
       id="tubemark-iframe"
-      src="${chrome.extension.getURL("popup.html")}"
+      src="${chrome.extension.getURL("popup/popup.html")}"
       style="width:100%; height:100%; display:unset;"/>
   `;
 

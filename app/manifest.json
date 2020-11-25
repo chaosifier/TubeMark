@@ -38,10 +38,7 @@
   "options_page": "options/options.html",
   "web_accessible_resources": [
     "options/options.html",
-    "popup.html",
-    "popup.css",
-    "reset.css",
-    "videoInfo.js",
-    "dist/bundle.js"
+    "popup/popup.html",
+    "videoInfo.js"
   ]
 }

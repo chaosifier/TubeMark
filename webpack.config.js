@@ -1,8 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 
-module.exports = {
-  entry: "./app/options/options.js",
+var commonConfig = {
   devtool: 'cheap-module-source-map',
   mode: "development",
   module: {
@@ -20,9 +19,26 @@ module.exports = {
     ]
   },
   resolve: { extensions: ["*", ".js", ".jsx"] },
+}
+
+var optionsConfig = Object.assign({}, commonConfig, {
+  entry: "./app/options/options.js",
   output: {
     path: path.resolve(__dirname, "app/", "dist/"),
-    publicPath: "app/dist/", //TODO what does publicPath do?
+    publicPath: "app/dist/",
     filename: "options.js"
   }
-};
+});
+
+var popupConfig = Object.assign({}, commonConfig, {
+  entry: "./app/popup/popup.js",
+  output: {
+    path: path.resolve(__dirname, "app/", "dist/"),
+    publicPath: "app/dist/",
+    filename: "popup.js"
+  }
+});
+
+module.exports = [
+  optionsConfig, popupConfig
+];

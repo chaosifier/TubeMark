@@ -1,8 +1,8 @@
 import React, {Component} from "react";
+import "../common/reset.css";
 import "./App.css";
-import "./reset.css";
 import moment from "moment";
-import * as utils from "./utils.js";
+import * as utils from "../common/utils.js";
 
 const roamDateFormat = 'MMMM Do, YYYY';
 
