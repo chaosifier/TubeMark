@@ -22,6 +22,6 @@
   "scripts": {
     "dev": "webpack --mode development --devtool cheap-module-source-map",
     "prod": "webpack --mode production",
-    "clean": "rm -rf app/dist"
+    "clean": "rm -rf app/public/build"
   }
 }

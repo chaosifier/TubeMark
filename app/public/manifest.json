@@ -35,9 +35,9 @@
       }
     }
   },
-  "options_page": "options/options.html",
+  "options_page": "options.html",
   "web_accessible_resources": [
-    "popup/popup.html",
+    "popup.html",
     "videoInfo.js"
   ]
 }
