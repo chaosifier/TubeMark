@@ -1,6 +1,7 @@
 {
   "name": "TubeMark",
   "version": "0.1.0",
+  "sideEffects": false,
   "devDependencies": {
     "@babel/cli": "^7.1.0",
     "@babel/core": "^7.1.0",
@@ -15,11 +16,12 @@
     "style-loader": "^0.23.0",
     "webpack": "^4.19.1",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.8"
+    "webpack-dev-server": "^3.1.8",
+    "webpack-merge": "^5.4.0"
   },
   "scripts": {
-    "build": "webpack --mode development",
-    "clean": "rm -rf app/dist",
-    "rebuild": "npm run clean && npm run build"
+    "dev": "webpack --mode development --devtool cheap-module-source-map",
+    "prod": "webpack --mode production",
+    "clean": "rm -rf app/dist"
   }
 }

@@ -1,9 +1,11 @@
 const path = require("path");
 const webpack = require("webpack");
 
-var commonConfig = {
-  devtool: 'cheap-module-source-map',
-  mode: "development",
+module.exports = {
+  entry: {
+    options: './app/options/options.js',
+    popup: './app/popup/popup.js',
+  },
   module: {
     rules: [
       {
@@ -19,26 +21,9 @@ var commonConfig = {
     ]
   },
   resolve: { extensions: ["*", ".js", ".jsx"] },
-}
-
-var optionsConfig = Object.assign({}, commonConfig, {
-  entry: "./app/options/options.js",
   output: {
     path: path.resolve(__dirname, "app/", "dist/"),
     publicPath: "app/dist/",
-    filename: "options.js"
+    filename: "[name].js"
   }
-});
-
-var popupConfig = Object.assign({}, commonConfig, {
-  entry: "./app/popup/popup.js",
-  output: {
-    path: path.resolve(__dirname, "app/", "dist/"),
-    publicPath: "app/dist/",
-    filename: "popup.js"
-  }
-});
-
-module.exports = [
-  optionsConfig, popupConfig
-];
+};
