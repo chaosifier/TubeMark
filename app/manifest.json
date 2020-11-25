@@ -31,7 +31,7 @@
     "open-input": {
       "description": "Open the bookmark input popup",
       "suggested_key": {
-        "default": "Ctrl+B"
+        "default": "Ctrl+Shift+B"
       }
     }
   },
