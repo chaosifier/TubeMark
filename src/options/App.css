@@ -1,0 +1,127 @@
+:root {
+  --color-main: #534D56;
+  --color-secondary: #656176;
+  --color-contrast:#1B998B;
+  --color-background-main: #DECDF5;
+  --color-background-secondary: #F4F4F6;
+  --color-background-none: white;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-main);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: var(--color-contrast);
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+}
+
+.panel-header {
+  padding: 8px;
+  border-bottom: 2px solid var(--color-main);
+}
+
+.panel-header .title {
+  font-size: 16px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--color-secondary);
+}
+
+/* MASTER PANEL STYLING */
+.master {
+  width: 35%;
+  margin: 0;
+  border: none;
+  box-sizing: border-box;
+  height: inherit;
+  background-color: var(--color-background-secondary);
+  border-right: 2px solid var(--color-main);
+  overflow-y: auto;
+}
+
+.master-item {
+  display: flex;
+  border-bottom: 1px solid var(--color-main);
+}
+
+.master-item .title {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 16px 8px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.master-item.item-selected {
+  background-color: var(--color-background-none);
+}
+
+.master-item.item-selected .spacer {
+  width: 8px;
+  background-color: var(--color-background-main);
+  animation-duration: 0.2s;
+  animation-name: slidein;
+}
+
+@keyframes slidein {
+  from { width: 0; }
+  to { width: 8px; }
+}
+
+.master-item:hover {
+  background: var(--color-background-none);
+  cursor: pointer;
+}
+
+.master .delete-btn {
+  border: none;
+  background-color: var(--color-background-main);
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* DETAIL PANEL STYLING */
+.detail {
+  width: 65%;
+  box-sizing: border-box;
+  height: 100%;
+  background-color: var(--color-background-none);
+  overflow-y: auto;
+}
+
+.detail-item {
+  padding: 12px 8px;
+  font-size: 16px;
+  display: block;
+}
+
+.playback-timestamp {
+  display: block;
+  float: left;
+  text-align: left;
+  margin-right: 8px;
+}

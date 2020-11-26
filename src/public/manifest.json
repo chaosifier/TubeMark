@@ -1,0 +1,43 @@
+{
+  "manifest_version": 2,
+  "name": "TubeMark",
+  "description": "Bookmar youtube timeslice.",
+  "version": "1",
+  "author": "Sagar Dahal",
+  "browser_action": {
+    "default_icon": "ic_launcher.png",
+    "default_title": "WeTube"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs"
+  ],
+  "content_scripts": [{
+    "matches": ["*://www.youtube.com/*"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }],
+  "icons": {
+    "256": "ic_launcher.png"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "commands": {
+    "open-input": {
+      "description": "Open the bookmark input popup",
+      "suggested_key": {
+        "default": "Alt+B"
+      }
+    }
+  },
+  "options_page": "options.html",
+  "web_accessible_resources": [
+    "popup.html",
+    "videoInfo.js"
+  ]
+}
